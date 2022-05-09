@@ -56,7 +56,7 @@ app.get("/:id_user", async (req, res) => {
 
 //Search
 app.post("/search/search", async (req, res) => {
-   
+
     let find = req.body.find
     let result = await user.findAll({
         where: {
@@ -86,8 +86,6 @@ app.post("/search/search", async (req, res) => {
                         [Op.like]: `%${find}%`
                     }
                 }
-                
-
             ]
         },
         include: [
@@ -95,16 +93,16 @@ app.post("/search/search", async (req, res) => {
             {
                 model: model.outlet,
                 as: "outlet",
-                    // where: {
-                    //     [Op.or]: [
-                    //         {
-                    //             nama_outlet: {
-                    //                 [Op.like]: `%${find}%`
-                    //             }
-                    //         },
-                    //     ]
-                    // },
-                
+                // where: {
+                //     [Op.or]: [
+                //         {
+                //             nama_outlet: {
+                //                 [Op.like]: `%${find}%`
+                //             }
+                //         },
+                //     ]
+                // },
+
             }
         ]
     })

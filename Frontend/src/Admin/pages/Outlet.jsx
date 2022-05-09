@@ -112,7 +112,7 @@ class Outlet extends React.Component {
         .then(response => {
           // window.alert(response.data.message)
           this.getOutlet()
-          this.handleColse()
+          this.handleClose()
         })
         .catch(error => console.log(error))
     } else if (this.state.action === "update") {
@@ -121,7 +121,7 @@ class Outlet extends React.Component {
         .then(response => {
           // window.alert(response.data.message)
           this.getOutlet()
-          this.handleColse()
+          this.handleClose()
         })
         .catch(error => console.log(error))
     }

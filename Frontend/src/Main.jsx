@@ -17,6 +17,7 @@ import ChooseMember from './Admin/pages/ChooseMember';
 import ChoosePackage from './Admin/pages/ChoosePackage';
 import TransactionDetail from './Admin/pages/TransactionDetail';
 import PrintBill from './Admin/pages/PrintBill';
+import Profile from './Admin/pages/Profile';
 
 const Main = () => {
     return (
@@ -37,6 +38,7 @@ const Main = () => {
             <Route path="/cart" component={Cart}/>
             <Route path="/detail/:id_transaction" component={TransactionDetail}/>
             <Route path="/printbill/:id_transaksi" component={PrintBill}/>
+            <Route path="/profile" component={Profile}/>
         </Switch>
     );
 };

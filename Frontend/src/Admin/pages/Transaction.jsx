@@ -115,7 +115,7 @@ class Transaction extends React.Component {
       .then(response => {
         // window.alert(response.data.message)
         this.getTransaksi()
-        this.handleColse()
+        this.handleClose()
       })
       .catch(error => console.log(error))
     this.setState({

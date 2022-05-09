@@ -15,6 +15,8 @@ const user = models.user
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 
+const moment = require('moment');
+
 //import auth
 // const auth = require("../auth")
 // app.use(auth)
@@ -239,6 +241,8 @@ app.put("/:id", async (req, res) => {
     });
 });
 
+
+
 //Endpoint untuk menghapus data transaksi
 app.delete("/:id", (req, res) => {
   let param = {
@@ -269,5 +273,33 @@ app.delete("/:id", (req, res) => {
       });
     });
 });
+
+app.post("/laporanowner/laporannih/:id_outlet", async (req, res) => {
+  // let start = moment(req.body.start).format('YYYY-MM-DD')
+  // let end = moment(req.body.end).format('YYYY-MM-DD')
+  let start = req.body.start
+  let end = req.body.end
+  let result = await transaksi.findAll({
+    where: {
+      id_outlet : req.params.id_outlet,
+      tgl : {
+        [Op.between]: [
+          start, end
+        ]
+      }
+    },
+    // include: [
+    //   "member", "outlet", "user",
+    //   {
+    //     model: models.detail_transaksi,
+    //     as: "detail_transaksi",
+    //     include: ["paket"]
+    //   }
+    // ]
+  })
+  res.json({
+    transaksi: result
+  })
+})
 
 module.exports = app

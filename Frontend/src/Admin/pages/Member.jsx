@@ -108,7 +108,7 @@ class Member extends React.Component {
         .then(response => {
           // window.alert(response.data.message)
           this.getMember()
-          this.handleColse()
+          this.handleClose()
         })
         .catch(error => console.log(error))
     } else if (this.state.action === "update") {
@@ -117,7 +117,7 @@ class Member extends React.Component {
         .then(response => {
           // window.alert(response.data.message)
           this.getMember()
-          this.handleColse()
+          this.handleClose()
         })
         .catch(error => console.log(error))
     }

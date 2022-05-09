@@ -23,7 +23,8 @@ class User extends React.Component {
       userName: "",
       outletname: "",
       isModalPw: false,
-      action: ""
+      action: "",
+      userId: 0
 
     }
     if (localStorage.getItem('token')) {
@@ -31,6 +32,8 @@ class User extends React.Component {
         this.state.role = localStorage.getItem('role')
         this.state.token = localStorage.getItem('token')
         this.state.userName = localStorage.getItem('name')
+        this.state.userId = localStorage.getItem('id')
+        console.log(this.state.userId)
       } else {
         window.alert("You are not an admin")
         window.location = '/login'
@@ -188,22 +191,28 @@ class User extends React.Component {
         .then(response => {
           // window.alert(response.data.message)
           this.getUser()
-          this.handleColse()
+          this.handleClose()
         })
         .catch(error => console.log(error))
     } else if (this.state.action === "update") {
       url = "http://localhost:8080/user/" + this.state.id_user
       axios.put(url, form, this.headerConfig())
         .then(response => {
-          // window.alert(response.data.message)
+          // if(JSON.stringify(id) === this.state.userId){
+          //   localStorage.setItem("name", this.state.nama)
+          //   localStorage.setItem("user", JSON.stringify(form))
+          //   localStorage.setItem("role", this.state.role)
+          //   localStorage.setItem("id_outlet", this.state.id_outlet)
+          // }
           this.getUser()
-          this.handleColse()
+          this.handleClose()
         })
         .catch(error => console.log(error))
     }
     this.setState({
       isModalOpen: false
     })
+   
   }
 
   getOutlet = async () => {
@@ -226,7 +235,15 @@ class User extends React.Component {
       axios.delete(url)
         .then(res => {
           console.log(res.data.message)
+          if(JSON.stringify(id) === this.state.userId){
+            window.alert("Your account has been deleted")
+            window.location = "/login"
+            localStorage.clear()
+          }else{
           this.getUser()
+
+          }
+
         })
         .catch(err => {
           console.log(err.message)
@@ -252,6 +269,11 @@ class User extends React.Component {
           console.log(error);
         });
     }
+  }
+
+  Edit =  () =>{
+    window.alert("Edit your data in profile page")
+    window.location = "/profile"
   }
 
   componentDidMount() {
@@ -298,7 +320,12 @@ class User extends React.Component {
                     <td>{item.outlet.nama_outlet}</td>
                     <td>{item.role}</td>
                     <td>
-                      <button className="btn btn-sm btn-outline-dark m-1" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>
+                      {this.state.userId === JSON.stringify(item.id_user) && 
+                        <button className="btn btn-sm btn-outline-dark m-1" onClick={() => this.Edit()}><i className="fa fa-pencil"></i></button>
+                      }
+                      {this.state.userId !== JSON.stringify(item.id_user) && 
+                        <button className="btn btn-sm btn-outline-dark m-1" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>
+                      }
                       <button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.Drop(item.id_user)}><i className="fa fa-trash"></i></button>
                       <button className="btn btn-sm btn-dark m-1" id="brown" onClick={() => this.handleEditPw(item)}>Edit Password</button>
                     </td>

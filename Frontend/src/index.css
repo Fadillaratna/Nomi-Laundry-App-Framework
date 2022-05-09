@@ -161,3 +161,9 @@ h1 {
   background-color:black;
   opacity: 100%;
 }
+
+.profile-img{
+  border-radius: 100%;
+  border-color: transparent;
+  width: 72%;
+}
