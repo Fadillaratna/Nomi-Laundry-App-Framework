@@ -56,7 +56,6 @@ app.get("/:id_user", async (req, res) => {
 
 //Search
 app.post("/search/search", async (req, res) => {
-
     let find = req.body.find
     let result = await user.findAll({
         where: {

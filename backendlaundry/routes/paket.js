@@ -112,7 +112,7 @@ app.post("/search/:id_outlet", async (req, res) => {
     let find = req.body.find
     let result = await paket.findAll({
         where: {
-            id_outlet : req.params.id_outlet,
+            id_outlet: req.params.id_outlet,
             [Op.or]: [
                 {
                     nama_paket: {

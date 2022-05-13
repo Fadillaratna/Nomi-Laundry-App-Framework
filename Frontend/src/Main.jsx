@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import Home from './Admin/pages/Home';
 import About from './Admin/pages/About';
@@ -9,7 +9,7 @@ import Gallery from './Admin/pages/Gallery';
 import Cart from './Admin/pages/Cart';
 import User from './Admin/pages/User';
 import Member from './Admin/pages/Member';
-import Login from './Login';
+import Login from './Admin/pages/Login';
 import Outlet from './Admin/pages/Outlet';
 import Packet from './Admin/pages/Packet';
 import Transaction from './Admin/pages/Transaction';
@@ -18,28 +18,32 @@ import ChoosePackage from './Admin/pages/ChoosePackage';
 import TransactionDetail from './Admin/pages/TransactionDetail';
 import PrintBill from './Admin/pages/PrintBill';
 import Profile from './Admin/pages/Profile';
+import Report from './Admin/pages/Report';
+import PrintReport from './Admin/pages/PrintReport';
 
 const Main = () => {
     return (
-        <Switch>
+        <Routes>
             {/* switch component --> < 6, routes element --> > 6 */}
             {/* exact (yang akan pertama ditampilkan) */}
-            <Route exact path="/" component={Home}/>
-            <Route path="/about" component={About}/>
-            <Route path="/contact" component={Contact}/>
-            <Route path="/user" component={User}/>
-            <Route path="/member" component={Member}/>
-            <Route path="/login" component={Login}/>
-            <Route path="/outlet" component={Outlet}/>
-            <Route path="/package" component={Packet}/>
-            <Route path="/transaction" component={Transaction}/>
-            <Route path="/choosemember" component={ChooseMember}/>
-            <Route path="/choosepackage" component={ChoosePackage}/>
-            <Route path="/cart" component={Cart}/>
-            <Route path="/detail/:id_transaction" component={TransactionDetail}/>
-            <Route path="/printbill/:id_transaksi" component={PrintBill}/>
-            <Route path="/profile" component={Profile}/>
-        </Switch>
+            <Route exact path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/user" element={<User />} />
+            <Route path="/member" element={<Member />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/outlet" element={<Outlet />} />
+            <Route path="/package" element={<Packet />} />
+            <Route path="/transaction" element={<Transaction />} />
+            <Route path="/choosemember" element={<ChooseMember />} />
+            <Route path="/choosepackage" element={<ChoosePackage />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/detail/:id_transaction" element={<TransactionDetail />} />
+            <Route path="/printbill/:id_transaksi" element={<PrintBill />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/report" element={<Report />} />
+            <Route path="/printReport" element={<PrintReport />} />
+        </Routes>
     );
 };
 

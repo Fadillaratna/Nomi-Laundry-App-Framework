@@ -48,6 +48,9 @@ module.exports = {
       total: {
         type: Sequelize.DOUBLE
       },
+      grandTotal: {
+        type: Sequelize.DOUBLE
+      },
       status: {
         type: Sequelize.ENUM('baru', 'proses', 'selesai', 'diambil')
       },

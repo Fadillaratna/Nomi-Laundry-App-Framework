@@ -99,7 +99,13 @@ export default class Cart extends React.Component {
 
         let index = tempCart.findIndex(it => it.id_paket === selectedItem.id_paket)
         let promptJumlah = window.prompt(`Masukkan jumlah ${selectedItem.name} yang dibeli`, selectedItem.qty)
-        tempCart[index].qty = promptJumlah
+        if (promptJumlah === null || promptJumlah === "" || promptJumlah === "0") {
+            window.alert("Qty cannot be null")
+        } else {
+            tempCart[index].qty = promptJumlah
+
+
+        }
         tempCart[index].subtotal = promptJumlah * tempCart[index].harga
 
         // update localStorage
@@ -107,6 +113,7 @@ export default class Cart extends React.Component {
 
         // refresh cart
         this.initCart()
+
     }
 
     dropItem = selectedItem => {
@@ -156,7 +163,8 @@ export default class Cart extends React.Component {
             dibayar: "belum_bayar",
             id_user: this.state.id_user,
             detail_transaksi: tempCart,
-            total: this.state.totalAwal
+            total: this.state.totalAwal,
+            grandTotal: this.state.total
         }
         let url = "http://localhost:8080/transaksi"
         axios.post(url, data)

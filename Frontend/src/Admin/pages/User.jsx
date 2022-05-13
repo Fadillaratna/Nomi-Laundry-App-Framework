@@ -132,8 +132,6 @@ class User extends React.Component {
 
   }
 
-
-
   handleEditPw = (item) => {
     this.setState({
       isModalPw: true,
@@ -212,7 +210,7 @@ class User extends React.Component {
     this.setState({
       isModalOpen: false
     })
-   
+
   }
 
   getOutlet = async () => {
@@ -235,12 +233,12 @@ class User extends React.Component {
       axios.delete(url)
         .then(res => {
           console.log(res.data.message)
-          if(JSON.stringify(id) === this.state.userId){
+          if (JSON.stringify(id) === this.state.userId) {
             window.alert("Your account has been deleted")
             window.location = "/login"
             localStorage.clear()
-          }else{
-          this.getUser()
+          } else {
+            this.getUser()
 
           }
 
@@ -271,7 +269,7 @@ class User extends React.Component {
     }
   }
 
-  Edit =  () =>{
+  Edit = () => {
     window.alert("Edit your data in profile page")
     window.location = "/profile"
   }
@@ -320,10 +318,10 @@ class User extends React.Component {
                     <td>{item.outlet.nama_outlet}</td>
                     <td>{item.role}</td>
                     <td>
-                      {this.state.userId === JSON.stringify(item.id_user) && 
+                      {this.state.userId === JSON.stringify(item.id_user) &&
                         <button className="btn btn-sm btn-outline-dark m-1" onClick={() => this.Edit()}><i className="fa fa-pencil"></i></button>
                       }
-                      {this.state.userId !== JSON.stringify(item.id_user) && 
+                      {this.state.userId !== JSON.stringify(item.id_user) &&
                         <button className="btn btn-sm btn-outline-dark m-1" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>
                       }
                       <button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.Drop(item.id_user)}><i className="fa fa-trash"></i></button>

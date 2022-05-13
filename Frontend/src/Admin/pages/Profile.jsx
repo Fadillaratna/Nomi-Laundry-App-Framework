@@ -135,8 +135,6 @@ export default class Profile extends Component {
                 // window.alert(response.data.message)
                 this.getUser()
                 window.alert("Success edit")
-
-
                 localStorage.setItem("name", this.state.nama)
                 localStorage.setItem("role", this.state.role)
                 localStorage.setItem("id_outlet", this.state.id_outlet)

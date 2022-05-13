@@ -24,16 +24,17 @@ class PrintBill extends React.Component {
 
         }
         if (localStorage.getItem('token')) {
-            if (localStorage.getItem('role') === "admin") {
+            // if (localStorage.getItem('role') === "admin") {
                 this.state.role = localStorage.getItem('role')
                 this.state.token = localStorage.getItem('token')
                 this.state.userName = localStorage.getItem('name')
                 this.state.outletId = localStorage.getItem('id_outlet')
                 this.state.outletName = localStorage.getItem('outlet')
-            } else {
-                window.alert("You are not an admin")
-                window.location = '/login'
-            }
+            // } else {
+            //     window.alert("You are not an admin")
+            //     window.location = '/login'
+            //     localStorage.clear()
+            // }
         } else {
             window.location = "/login"
         }

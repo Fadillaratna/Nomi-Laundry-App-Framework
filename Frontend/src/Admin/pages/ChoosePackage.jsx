@@ -103,12 +103,12 @@ class ChoosePackage extends Component {
               <Form.Group className="mb-2" controlId="name">
                 <Form.Label>Package Name</Form.Label>
                 <Form.Control type="text" name="nama_paket" placeholder="Input package name"
-                  value={this.state.nama_paket} onChange={this.handleChange} required/>
+                  value={this.state.nama_paket} onChange={this.handleChange} required />
               </Form.Group>
               <Form.Group className="mb-2" controlId="address">
                 <Form.Label>Price</Form.Label>
                 <Form.Control type="text" name="harga" placeholder="Input price"
-                  value={this.state.harga} onChange={this.handleChange} required/>
+                  value={this.state.harga} onChange={this.handleChange} required />
               </Form.Group>
               <Form.Group className="mb-2" controlId="gender">
                 <Form.Label>Type</Form.Label>

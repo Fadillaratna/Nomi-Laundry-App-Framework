@@ -54,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
     diskon: DataTypes.DOUBLE,
     pajak: DataTypes.INTEGER,
     total: DataTypes.DOUBLE,
+    grandTotal: DataTypes.DOUBLE,
     status: DataTypes.ENUM('baru', 'proses', 'selesai', 'diambil'),
     dibayar: DataTypes.ENUM('dibayar', 'belum_bayar'),
     id_user: {

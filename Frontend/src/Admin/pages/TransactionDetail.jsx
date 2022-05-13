@@ -27,16 +27,16 @@ class TransactionDetail extends React.Component {
 
         }
         if (localStorage.getItem('token')) {
-            if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
+            // if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
                 this.state.role = localStorage.getItem('role')
                 this.state.token = localStorage.getItem('token')
                 this.state.userName = localStorage.getItem('name')
                 this.state.outletId = localStorage.getItem('id_outlet')
                 this.state.outletName = localStorage.getItem('outlet')
-            } else {
-                window.alert("You are not an admin")
-                window.location = '/login'
-            }
+            // } else {
+            //     window.alert("You are not an admin")
+            //     window.location = '/login'
+            // }
         } else {
             window.location = "/login"
         }
@@ -149,6 +149,7 @@ class TransactionDetail extends React.Component {
                             }
                             <h6 className="text-muted">{this.state.transaksi.status}</h6>
                             <h6 className="text-muted">{this.state.transaksi.dibayar}</h6>
+                       
                             <h6 className="text-muted">{this.state.member.nama}</h6>
                             <h6 className="text-muted">{this.state.member.tlp}</h6>
                             <h6 className="text-muted">{this.state.member.alamat}</h6>
@@ -194,7 +195,7 @@ class TransactionDetail extends React.Component {
                             </tr>
                             <tr>
                                 <td colSpan="3">Final Total</td>
-                                <td className="text-right" colSpan={2}>Rp {(this.state.transaksi.total - this.state.transaksi.diskon) + (this.state.transaksi.biaya_tambahan) + (this.state.transaksi.pajak)}</td>
+                                <td className="text-right" colSpan={2}>Rp {this.state.transaksi.grandTotal}</td>
                             </tr>
 
                         </tbody>

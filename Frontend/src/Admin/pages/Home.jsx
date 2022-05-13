@@ -9,17 +9,17 @@ export default class Home extends Component {
       token: "",
       username: "",
       userId: 0,
-      role: "", 
+      role: "",
       outletname: "",
       peran: "pp"
     }
 
     if (localStorage.getItem('token')) {
       // if (localStorage.getItem('role') === "admin") {
-        this.state.role = localStorage.getItem('role')
-        this.state.token = localStorage.getItem('token')
-        this.state.username = localStorage.getItem('name')
-        this.state.outletname = localStorage.getItem('outlet')
+      this.state.role = localStorage.getItem('role')
+      this.state.token = localStorage.getItem('token')
+      this.state.username = localStorage.getItem('name')
+      this.state.outletname = localStorage.getItem('outlet')
       // }else{
       //   window.alert("You are not an admin")
       //   window.location = '/login'
@@ -28,7 +28,7 @@ export default class Home extends Component {
       window.location = "/login"
     }
 
-  
+
 
   }
   render() {

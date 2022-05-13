@@ -63,10 +63,46 @@ app.get("/:id_outlet", async (req, res) => {
         as: "detail_transaksi",
         include: ["paket"]
       }
-    ]
+    ],
+    order: [['createdAt', 'DESC']]
   })
   res.json({
     transaksi: result
+  })
+})
+
+app.get("/lunas/:id_outlet", async (req, res) => {
+  let params = { id_outlet: req.params.id_outlet, dibayar: "dibayar" }
+  let result = await transaksi.findAll({
+    where: params,
+    include: [
+      "member", "outlet", "user",
+      {
+        model: models.detail_transaksi,
+        as: "detail_transaksi",
+        include: ["paket"]
+      }
+    ],
+
+  })
+
+  let sumTotal = await transaksi.sum('total', {
+    where: {
+      id_outlet: req.params.id_outlet,
+      dibayar: "dibayar",
+    },
+  });
+
+  let grandTotal = await transaksi.sum('grandTotal', {
+    where: {
+      id_outlet: req.params.id_outlet,
+      dibayar: "dibayar",
+    },
+  });
+  res.json({
+    transaksi: result,
+    sumTotal: sumTotal,
+    sumGrand: grandTotal
   })
 })
 
@@ -83,6 +119,7 @@ app.post("/search/:id_outlet", async (req, res) => {
           }
         },
         // {
+
         //   tgl: {
         //     [Op.like]: `%${find}`
         //   }
@@ -121,7 +158,8 @@ app.post("/search/:id_outlet", async (req, res) => {
         as: "detail_transaksi",
         include: ["paket"]
       }
-    ]
+    ],
+    order: [['createdAt', 'DESC']]
   })
   res.json({
     transaksi: result
@@ -164,10 +202,11 @@ app.get("/byTransaksi/:id_transaksi/:id_outlet", async (req, res) => {
   })
 })
 
+
 //endpoint untuk menambahkan data transaksi baru
 app.post("/", async (req, res) => {
-  let current = new Date().toISOString().split('T')[0]
-  let code = `CVR${Math.random}`
+  let current = new Date()
+  let today = moment(current).format('YYYY-MM-DD');
   let now = new Date()
   let tgl = Date.now()
   let invoices = "Laund"
@@ -176,7 +215,7 @@ app.post("/", async (req, res) => {
     id_outlet: req.body.id_outlet,
     kode_invoice: invoices + tgl,
     id_member: req.body.id_member,
-    tgl: current,
+    tgl: today,
     batas_waktu: now,
     tgl_bayar: req.body.tgl_bayar,
     biaya_tambahan: req.body.biaya_tambahan,
@@ -185,7 +224,8 @@ app.post("/", async (req, res) => {
     status: req.body.status,
     dibayar: req.body.dibayar,
     id_user: req.body.id_user,
-    total: req.body.total
+    total: req.body.total,
+    grandTotal: req.body.grandTotal
   }
   transaksi.create(data)
     .then(result => {
@@ -219,13 +259,15 @@ app.put("/:id", async (req, res) => {
   let param = {
     id_transaksi: req.params.id
   }
-  let current = new Date().toISOString().split("T")[0];
+  let current = new Date();
+  let today = moment(current).format('YYYY-MM-DD');
   let data = {
-    status: req.body.status,
-    dibayar: req.body.dibayar,
+    status: req.body.status
   };
-  if (data.dibayar === "dibayar") {
-    data.tgl_bayar = current
+  if (data.status === "diambil") {
+    data.tgl_bayar = today
+    data.dibayar = "dibayar"
+
   }
   transaksi
     .update(data, { where: param })
@@ -274,32 +316,134 @@ app.delete("/:id", (req, res) => {
     });
 });
 
-app.post("/laporanowner/laporannih/:id_outlet", async (req, res) => {
-  // let start = moment(req.body.start).format('YYYY-MM-DD')
-  // let end = moment(req.body.end).format('YYYY-MM-DD')
-  let start = req.body.start
-  let end = req.body.end
-  let result = await transaksi.findAll({
-    where: {
-      id_outlet : req.params.id_outlet,
-      tgl : {
-        [Op.between]: [
-          start, end
-        ]
-      }
-    },
-    // include: [
-    //   "member", "outlet", "user",
-    //   {
-    //     model: models.detail_transaksi,
-    //     as: "detail_transaksi",
-    //     include: ["paket"]
-    //   }
-    // ]
-  })
-  res.json({
-    transaksi: result
-  })
+app.post("/laporan/:id_outlet", async (req, res) => {
+
+  let start = new Date(req.body.start)
+  let end = new Date(req.body.end)
+
+  // let start = req.body.start
+  // let end = req.body.end
+  if (req.body.start && req.body.end) {
+    let result = await transaksi.findAll({
+      where: {
+        id_outlet: req.params.id_outlet, 
+        dibayar: "dibayar",
+        tgl: {
+          [Op.between]: [
+            start, end
+          ]
+        }
+      },
+      include: [
+        "member", "outlet", "user",
+        {
+          model: models.detail_transaksi,
+          as: "detail_transaksi",
+          include: ["paket"]
+        },
+
+      ],
+
+    })
+
+    let sumTotal = await transaksi.sum('total', {
+      where: {
+        id_outlet: req.params.id_outlet,
+        tgl: {
+          [Op.between]: [
+            start, end
+          ]
+        }
+      },
+    });
+
+    let grandTotal = await transaksi.sum('grandTotal', {
+      where: {
+        id_outlet: req.params.id_outlet,
+        dibayar: "dibayar",
+        tgl: {
+          [Op.between]: [
+            start, end
+          ]
+        }
+      },
+    });
+
+    let maxDate = await transaksi.max('tgl', {
+      where: {
+        id_outlet: req.params.id_outlet,
+        dibayar: "dibayar",
+      },
+    });
+
+    let minDate = await transaksi.min('tgl', {
+      where: {
+        id_outlet: req.params.id_outlet,
+        dibayar: "dibayar",
+      },
+    });
+
+    res.json({
+      transaksi: result,
+      sumTotal: sumTotal,
+      sumGrand: grandTotal,
+      maxDate: maxDate,
+      minDate: minDate
+    })
+  } else {
+    let result = await transaksi.findAll({
+      where: {
+        id_outlet: req.params.id_outlet,
+        dibayar: "dibayar",
+      },
+      include: [
+        "member", "outlet", "user",
+        {
+          model: models.detail_transaksi,
+          as: "detail_transaksi",
+          include: ["paket"]
+        }
+      ],
+
+    })
+
+    let sumTotal = await transaksi.sum('total', {
+      where: {
+        id_outlet: req.params.id_outlet,
+        dibayar: "dibayar",
+      },
+    });
+
+    let grandTotal = await transaksi.sum('grandTotal', {
+      where: {
+        id_outlet: req.params.id_outlet,
+        dibayar: "dibayar",
+      },
+    });
+
+    let maxDate = await transaksi.max('tgl', {
+      where: {
+        id_outlet: req.params.id_outlet,
+        dibayar: "dibayar",
+      },
+    });
+
+    let minDate = await transaksi.min('tgl', {
+      where: {
+        id_outlet: req.params.id_outlet,
+        dibayar: "dibayar",
+      },
+    });
+
+    res.json({
+      transaksi: result,
+      sumTotal: sumTotal,
+      sumGrand: grandTotal,
+      maxDate: maxDate,
+      minDate: minDate
+    })
+  }
+
 })
 
 module.exports = app

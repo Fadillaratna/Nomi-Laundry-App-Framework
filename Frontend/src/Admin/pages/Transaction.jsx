@@ -26,19 +26,21 @@ class Transaction extends React.Component {
       namaMember: "",
       tgl: "",
       tgl_bayar: "",
+      detail_transaksi: [],
+
 
     }
     if (localStorage.getItem('token')) {
-      if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
-        this.state.role = localStorage.getItem('role')
-        this.state.token = localStorage.getItem('token')
-        this.state.userName = localStorage.getItem('name')
-        this.state.outletId = localStorage.getItem('id_outlet')
-        this.state.outletName = localStorage.getItem('outlet')
-      } else {
-        window.alert("You are not an admin")
-        window.location = '/login'
-      }
+      // if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
+      this.state.role = localStorage.getItem('role')
+      this.state.token = localStorage.getItem('token')
+      this.state.userName = localStorage.getItem('name')
+      this.state.outletId = localStorage.getItem('id_outlet')
+      this.state.outletName = localStorage.getItem('outlet')
+      // } else {
+      //   window.alert("You are not an admin")
+      //   window.location = '/login'
+      // }
     } else {
       window.location = "/login"
     }
@@ -93,6 +95,8 @@ class Transaction extends React.Component {
       tgl: item.tgl,
       tgl_bayar: item.tgl_bayar,
       isModalOpen: true,
+      detail_transaksi: item.detail_transaksi
+
     })
   }
 
@@ -106,7 +110,7 @@ class Transaction extends React.Component {
     } else {
       form = {
         status: this.state.status,
-        dibayar: this.state.dibayar
+        // dibayar: this.state.dibayar
       }
     }
 
@@ -153,9 +157,16 @@ class Transaction extends React.Component {
             <div className="col-6 mb-1">
               <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search User..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findTransaksi} />
             </div>
-            <div className="col-3 mt-5">
-              <NavLink to="/choosemember"><button className="btn btn-dark" id="blue">Add Transaction</button></NavLink>
-            </div>
+            {this.state.role === "admin" &&
+              <div className="col-3 mt-5">
+                <NavLink to="/choosemember"><button className="btn btn-dark" id="blue">Add Transaction</button></NavLink>
+              </div>
+            }
+            {this.state.role === "kasir" &&
+              <div className="col-3 mt-5">
+                <NavLink to="/choosemember"><button className="btn btn-dark" id="blue">Add Transaction</button></NavLink>
+              </div>
+            }
           </div>
 
 
@@ -209,14 +220,40 @@ class Transaction extends React.Component {
                     </td>
                     <td>{item.member.nama}</td>
                     <td>
-                      {item.status !== "diambil" && item.dibayar == "belum_bayar" &&
-                        <button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>
+                      {/* ADMIN */}
+                      {/* {item.status !== "diambil" && item.dibayar == "belum_bayar" && this.state.role === "admin" ?
+                        (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>)
                       }
-                      {item.status !== "diambil" && item.dibayar == "dibayar" &&
-                        <button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>
+                      {item.status !== "diambil" && item.dibayar == "dibayar" && this.state.role === "admin" ?
+                        (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>)
                       }
-                      {item.status == "diambil" && item.dibayar == "belum_bayar" &&
-                        <button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>
+                      {item.status == "diambil" && item.dibayar == "belum_bayar" && this.state.role === "admin" ?
+                        (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>)
+                      } */}
+
+                      {/* KASIR */}
+                      {/* {item.status !== "diambil" && item.dibayar == "belum_bayar" && this.state.role === "kasir" ?
+                        (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>)
+                      }
+                      {item.status !== "diambil" && item.dibayar == "dibayar" && this.state.role === "kasir" ?
+                        (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>)
+                      }
+                      {item.status == "diambil" && item.dibayar == "belum_bayar" && this.state.role === "kasir" ?
+                        (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>)
+                      } */}
+                      {this.state.role === "admin" &&
+                        <span>
+                          {item.status === "diambil" && item.dibayar === "dibayar" ? (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>)}
+                        </span> 
+
+
+ 
+                      }
+
+                      {this.state.role === "kasir" &&
+                        <span>
+                          {item.status === "diambil" && item.dibayar === "dibayar" ? (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>)}
+                        </span>
                       }
                       <NavLink to={`/detail/${item.id_transaksi}`} ><button className="btn btn-sm btn-dark m-1" id="brown"><i className="fa fa-info-circle"></i></button></NavLink>
                     </td>
@@ -240,7 +277,7 @@ class Transaction extends React.Component {
               <Form.Group className="mb-2" controlId="name">
                 <Form.Label>Invoice Code</Form.Label>
                 <Form.Control type="text" name="kode_invoice"
-                  value={this.state.tgl} readOnly />
+                  value={this.state.kode_invoice} readOnly />
               </Form.Group>
               <Form.Group className="mb-2" controlId="address">
                 <Form.Label>Transaction Date</Form.Label>
@@ -262,7 +299,7 @@ class Transaction extends React.Component {
                   <option value="diambil">diambil</option>
                 </Form.Select>
               </Form.Group>
-              <Form.Group className="mb-2" controlId="gender">
+              {/* <Form.Group className="mb-2" controlId="gender">
                 <Form.Label>Payment Status</Form.Label>
                 {this.state.dibayar !== "dibayar" &&
                   <Form.Select type="text" name="dibayar" onChange={this.handleChange} >
@@ -276,8 +313,32 @@ class Transaction extends React.Component {
                   </Form.Select>
                 }
 
-              </Form.Group>
+              </Form.Group> */}
+              <hr />
+              <h3 className='mt-3 fw-bold text-center'>Detail Laundry</h3>
+              <table className="table table-bordered mb-3 mt-3">
+                <thead>
+                  <tr>
+                    <th>Package</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.detail_transaksi.map((item, index) => (
+                    <tr key={index}>
+                      <td>{item.paket.nama_paket}</td>
+                      <td>Rp {item.paket.harga}</td>
+                      <td>{item.qty}</td>
+                      <td className="text-right">Rp {item.paket.harga * item.qty}</td>
+                      
+                    </tr>
+                  ))}
+                  
+                </tbody>
 
+              </table>
             </Modal.Body>
             <Modal.Footer>
               <Button variant="dark" type="submit" id="blue">
