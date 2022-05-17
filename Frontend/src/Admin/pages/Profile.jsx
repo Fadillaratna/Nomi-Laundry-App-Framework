@@ -154,8 +154,11 @@ export default class Profile extends Component {
     render() {
         return (
             <div>
-                <Navbar />
-                <div className="container my-2 py-5">
+                <Navbar 
+                    profile = "icon-act"
+                />
+                <div className="container my-5 py-5">
+                    <br /><br /><br />
                     <div className="row mt-2">
                         <div className="col-lg-4 col-xl-3">
                             <div className="card mb-5" id="card-profile">

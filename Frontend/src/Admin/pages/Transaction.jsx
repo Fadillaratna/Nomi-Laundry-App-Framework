@@ -31,16 +31,17 @@ class Transaction extends React.Component {
 
     }
     if (localStorage.getItem('token')) {
-      // if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
-      this.state.role = localStorage.getItem('role')
-      this.state.token = localStorage.getItem('token')
-      this.state.userName = localStorage.getItem('name')
-      this.state.outletId = localStorage.getItem('id_outlet')
-      this.state.outletName = localStorage.getItem('outlet')
-      // } else {
-      //   window.alert("You are not an admin")
-      //   window.location = '/login'
-      // }
+      if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
+        this.state.role = localStorage.getItem('role')
+        this.state.token = localStorage.getItem('token')
+        this.state.userName = localStorage.getItem('name')
+        this.state.outletId = localStorage.getItem('id_outlet')
+        this.state.outletName = localStorage.getItem('outlet')
+      } else {
+        window.alert("You are not an admin or a cashier")
+        window.location = '/login'
+        localStorage.clear()
+      }
     } else {
       window.location = "/login"
     }
@@ -150,16 +151,19 @@ class Transaction extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
-        <div className="container my-2 py-5">
+        <Navbar 
+          transaction = "content-act"
+        />
+        <div className="container my-5 py-5">
+          <br /><br />
           <h1 className="display-6 fw-light text-left">Transaction</h1>
           <div className="row">
             <div className="col-6 mb-1">
-              <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search User..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findTransaksi} />
+              <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search transaction..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findTransaksi} />
             </div>
             {this.state.role === "admin" &&
               <div className="col-3 mt-5">
-                <NavLink to="/choosemember"><button className="btn btn-dark" id="blue">Add Transaction</button></NavLink>
+                <NavLink to="/choosemember"><button className="btn btn-dark" id="blue"><i class="fa fa-plus me-2"></i> Add Transaction</button></NavLink>
               </div>
             }
             {this.state.role === "kasir" &&
@@ -244,10 +248,10 @@ class Transaction extends React.Component {
                       {this.state.role === "admin" &&
                         <span>
                           {item.status === "diambil" && item.dibayar === "dibayar" ? (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>)}
-                        </span> 
+                        </span>
 
 
- 
+
                       }
 
                       {this.state.role === "kasir" &&
@@ -290,18 +294,8 @@ class Transaction extends React.Component {
                   value={this.state.namaMember} readOnly />
               </Form.Group>
               <Form.Group className="mb-2" controlId="gender">
-                <Form.Label>Order Status</Form.Label>
-                <Form.Select type="text" name="status" onChange={this.handleChange} >
-                  <option value={this.state.status}>{this.state.status}</option>
-                  <option value="baru">Baru</option>
-                  <option value="proses">Proses</option>
-                  <option value="selesai">Selesai</option>
-                  <option value="diambil">diambil</option>
-                </Form.Select>
-              </Form.Group>
-              {/* <Form.Group className="mb-2" controlId="gender">
                 <Form.Label>Payment Status</Form.Label>
-                {this.state.dibayar !== "dibayar" &&
+                {/* {this.state.dibayar !== "dibayar" &&
                   <Form.Select type="text" name="dibayar" onChange={this.handleChange} >
                     <option value={this.state.dibayar}>{this.state.dibayar}</option>
                     <option value="dibayar">Dibayar</option>
@@ -311,9 +305,22 @@ class Transaction extends React.Component {
                   <Form.Select type="text" name="dibayar" onChange={this.handleChange} >
                     <option value={this.state.dibayar}>{this.state.dibayar}</option>
                   </Form.Select>
-                }
+                } */}
+                <Form.Control type="text" name="namamember" placeholder="Input username"
+                  value={this.state.dibayar} readOnly />
 
-              </Form.Group> */}
+              </Form.Group>
+              <Form.Group className="mb-2" controlId="gender">
+                <Form.Label>Order Status</Form.Label>
+                <Form.Select type="text" name="status" onChange={this.handleChange} >
+                  <option value={this.state.status}>{this.state.status}</option>
+                  <option value="baru">Baru</option>
+                  <option value="proses">Proses</option>
+                  <option value="selesai">Selesai</option>
+                  <option value="diambil">diambil</option>
+                </Form.Select>
+              </Form.Group>
+
               <hr />
               <h3 className='mt-3 fw-bold text-center'>Detail Laundry</h3>
               <table className="table table-bordered mb-3 mt-3">
@@ -331,11 +338,11 @@ class Transaction extends React.Component {
                       <td>{item.paket.nama_paket}</td>
                       <td>Rp {item.paket.harga}</td>
                       <td>{item.qty}</td>
-                      <td className="text-right">Rp {item.paket.harga * item.qty}</td>
-                      
+                      <td className="text-right">Rp {item.subtotal}</td>
+
                     </tr>
                   ))}
-                  
+
                 </tbody>
 
               </table>

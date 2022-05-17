@@ -14,12 +14,12 @@ import Outlet from './Admin/pages/Outlet';
 import Packet from './Admin/pages/Packet';
 import Transaction from './Admin/pages/Transaction';
 import ChooseMember from './Admin/pages/ChooseMember';
-import ChoosePackage from './Admin/pages/ChoosePackage';
 import TransactionDetail from './Admin/pages/TransactionDetail';
 import PrintBill from './Admin/pages/PrintBill';
 import Profile from './Admin/pages/Profile';
 import Report from './Admin/pages/Report';
 import PrintReport from './Admin/pages/PrintReport';
+import ChoosePackage from './Admin/pages/ChoosePackage';
 
 const Main = () => {
     return (
@@ -36,13 +36,14 @@ const Main = () => {
             <Route path="/package" element={<Packet />} />
             <Route path="/transaction" element={<Transaction />} />
             <Route path="/choosemember" element={<ChooseMember />} />
-            <Route path="/choosepackage" element={<ChoosePackage />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/detail/:id_transaction" element={<TransactionDetail />} />
             <Route path="/printbill/:id_transaksi" element={<PrintBill />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/report" element={<Report />} />
             <Route path="/printReport" element={<PrintReport />} />
+            <Route path="/choosePackage" element={<ChoosePackage />} />
+
         </Routes>
     );
 };

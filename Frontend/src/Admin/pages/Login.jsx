@@ -60,11 +60,11 @@ export default class Login extends Component {
 
 
         <div className="card mx-auto d-block" id="card-forgot">
-          <div className="card-body">
-            <img src="/assets/logo.jpeg" className="mx-auto d-block mt-4 mb-4" alt="" id="logo" width={70} />
-            <h4 className='fs-2 fw-bold text-center'>Kleen n' Clean Laundry</h4>
-            <h5 className='fs-6 fw-light text-center mb-5'>Welcome back! Login Here!</h5>
-            <form onSubmit={(e) => this.handleLogin(e)} className='ms-5 me-5'>
+          <div className="card-body ms-4 me-4">
+            <img src="/assets/logo.png" className="mt-4 mb-4" alt="" id="logo" width={80} />
+            <h4 className='fs-3 fw-bold'>Nomi Laundry</h4>
+            <h5 className='fs-6 fw-light mb-5'>Hello, welcome back! Login Here!</h5>
+            <form onSubmit={(e) => this.handleLogin(e)}>
               <label htmlFor="" className='mb-2'>Username</label>
               <input type="text" className='form-control' value={this.state.username} onChange={this.handleChange} placeholder='Input your username' name="username" /><br />
 

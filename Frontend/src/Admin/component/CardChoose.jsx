@@ -1,6 +1,6 @@
 import React from "react"
 
-class Card extends React.Component {
+class CardChoose extends React.Component {
     constructor() {
         super()
         this.state = {
@@ -71,7 +71,6 @@ class Card extends React.Component {
                     <div class="card-body p-4">
                         <img src={this.props.cover} class="card-img-top" id="produk" />
 
-                        
                         <h4 className="judul fs-4 fw-bold mt-3 mb-2">
                             {this.props.judul}
                         </h4>
@@ -82,18 +81,16 @@ class Card extends React.Component {
                         <h6 className="price fs-5 fw-normal mb-4">
                             Rp {this.props.harga},00
                         </h6>
-                        <button className="btn btn-sm btn-dark me-1 w-auto"
-                            onClick={this.props.onEdit} data-toggle="modal" data-target="#modal" id="brown">
-                            <i className="fa fa-pencil me-2"></i> Edit
+
+
+                        <button className="btn btn-sm btn-dark m-1 w-100" id="blue"
+                            onClick={this.props.onChoose}><i class="fa fa-check me-2"></i>Confirm Package
                         </button>
 
-                        <button className="btn btn-sm btn-danger  w-auto" id="blue"
-                            onClick={this.props.onDrop}><i className="fa fa-trash me-2"></i>Delete
-                        </button>
-
-                       
-
-
+                        {/* <button className="btn btn-sm btn-outline-dark m-1"
+                                onClick={this.props.onCart}>
+                                Add to cart
+                            </button> */}
                     </div>
                 </div>
             </div>
@@ -102,7 +99,7 @@ class Card extends React.Component {
         )
     }
 }
-export default Card;
+export default CardChoose;
 
 
 

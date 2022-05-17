@@ -32,8 +32,9 @@ export default class Cart extends React.Component {
                 this.state.outletid = localStorage.getItem('id_outlet')
                 this.state.id_user = localStorage.getItem('id')
             } else {
-                window.alert("You are not an admin")
+                window.alert("You are not an admin or a cashier")
                 window.location = '/login'
+                localStorage.clear()
             }
         } else {
             window.location = "/login"
@@ -71,6 +72,7 @@ export default class Cart extends React.Component {
 
         let diskon = (5 / 100) * totalHarga
         let tambahan = 0
+
         if (tempCart.length === 1) {
             tambahan = 500
         } else if (tempCart.length > 1 && this.state.cart.length <= 10) {
@@ -78,6 +80,7 @@ export default class Cart extends React.Component {
         } else if (tempCart.length > 10) {
             tambahan = 5000
         }
+
         totalHarga = (totalHarga - diskon) + tambahan
         let pajak = (10 / 100) * totalHarga
         totalHarga = totalHarga + pajak
@@ -99,14 +102,13 @@ export default class Cart extends React.Component {
 
         let index = tempCart.findIndex(it => it.id_paket === selectedItem.id_paket)
         let promptJumlah = window.prompt(`Masukkan jumlah ${selectedItem.name} yang dibeli`, selectedItem.qty)
-        if (promptJumlah === null || promptJumlah === "" || promptJumlah === "0") {
+        if (promptJumlah === null || promptJumlah === "" || promptJumlah === "0") { 
             window.alert("Qty cannot be null")
         } else {
             tempCart[index].qty = promptJumlah
-
+            tempCart[index].subtotal = promptJumlah * tempCart[index].harga
 
         }
-        tempCart[index].subtotal = promptJumlah * tempCart[index].harga
 
         // update localStorage
         localStorage.setItem("cart", JSON.stringify(tempCart))
@@ -164,6 +166,7 @@ export default class Cart extends React.Component {
             id_user: this.state.id_user,
             detail_transaksi: tempCart,
             total: this.state.totalAwal,
+            
             grandTotal: this.state.total
         }
         let url = "http://localhost:8080/transaksi"
@@ -196,8 +199,11 @@ export default class Cart extends React.Component {
     render() {
         return (
             <div className="bgv">
-                <Navbar />
-                <div className="container my-2 py-5">
+                <Navbar 
+                    cart = "icon-act"
+                />
+                <div className="container my-5 py-5">
+                    <br /><br />
                     <h4 className="display-6 fw-bold mb-5">
                         __Cart
                     </h4>
@@ -218,7 +224,7 @@ export default class Cart extends React.Component {
                                     <h6 className="text-muted">{this.state.member.tlp}</h6>
                                 </div>
                             </div>
-                            <NavLink to="/package"><button className="btn btn-dark btn-sm mb-4" id="brown">Add Product</button></NavLink>
+                            <NavLink to="/choosePackage"><button className="btn btn-dark btn-sm mb-4" id="brown">Add Product</button></NavLink>
                             <table className="table table-bordered text-black">
                                 <thead>
                                     <tr>

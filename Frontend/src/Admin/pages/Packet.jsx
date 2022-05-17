@@ -25,15 +25,16 @@ class Packet extends Component {
 
     }
     if (localStorage.getItem('token')) {
-      if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
+      if (localStorage.getItem('role') === "admin" ) {
         this.state.role = localStorage.getItem('role')
         this.state.token = localStorage.getItem('token')
         this.state.userName = localStorage.getItem('name')
         this.state.outletname = localStorage.getItem('outlet')
         this.state.outletid = localStorage.getItem('id_outlet')
       } else {
-        window.alert("You are not an admin or a cashier")
+        window.alert("You are not an admin")
         window.location = '/login'
+        localStorage.clear()
       }
     } else {
       window.location = "/login"
@@ -209,8 +210,11 @@ class Packet extends Component {
   render() {
     return (
       <div>
-        <Navbar />
-        <div className="container my-2 py-5">
+        <Navbar 
+          package = "content-act"
+        />
+        <div className="container my-5 py-5">
+          <br /><br />
           <h4 className="display-6 fw-light">
             Hello, {this.state.userName}!
           </h4>
@@ -218,13 +222,11 @@ class Packet extends Component {
 
           <div className="row">
             <div className="col-6 mb-1">
-              <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search Category..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findPaket} />
+              <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search package..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findPaket} />
 
             </div>
             <div className="col-3 mt-5">
-              {this.state.role === "admin" &&
-                <button onClick={() => this.handleAdd()} className="btn btn-dark" id="blue">Add Data</button>
-              }
+                <button onClick={() => this.handleAdd()} className="btn btn-dark" id="blue"><i class="fa fa-plus me-2"></i>Add Data</button>
             </div>
           </div>
 
@@ -239,7 +241,6 @@ class Packet extends Component {
                 cover={"http://localhost:8080/image/paket/" + item.image}
                 onEdit={() => this.handleEdit(item)}
                 onDrop={() => this.Drop(item.id_paket)}
-                onChoose={() => this.handleChoose(item)}
               // onCart={() => this.addToCart(item)}
               />
             ))}

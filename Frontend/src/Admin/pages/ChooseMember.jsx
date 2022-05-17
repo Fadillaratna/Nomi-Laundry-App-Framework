@@ -29,8 +29,9 @@ class ChooseMember extends React.Component {
                 this.state.token = localStorage.getItem('token')
                 this.state.userName = localStorage.getItem('name')
             } else {
-                window.alert("You are not an admin")
+                window.alert("You are not an admin or a cashier")
                 window.location = '/login'
+                localStorage.clear()
             }
         } else {
             window.location = "/login"
@@ -54,7 +55,7 @@ class ChooseMember extends React.Component {
     choose = item => {
         if (window.confirm(`Choose ${item.nama} ?`)) {
             localStorage.setItem("id_member", item.id_member)
-            window.location = "/package"
+            window.location = "/choosePackage"
         }
 
     }
@@ -96,12 +97,15 @@ class ChooseMember extends React.Component {
     render() {
         return (
             <div>
-                <Navbar />
-                <div className="container my-2 py-5">
+                <Navbar 
+                    member = "content-act"
+                />
+                <div className="container my-5 py-5">
+                    <br /><br />
                     <h1 className="display-6 fw-light text-left">Member</h1>
                     <div className="row">
                         <div className="col-6 mb-1">
-                            <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search User..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findMember} />
+                            <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search member..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findMember} />
 
                         </div>
                         <div className="col-3 mt-5">
@@ -130,7 +134,7 @@ class ChooseMember extends React.Component {
                                         <td>{item.tlp}</td>
                                         <td>{item.jenis_kelamin}</td>
                                         <td>
-                                            <button className="btn btn-sm btn-dark m-1" onClick={() => this.choose(item)} id="brown">Choose</button>
+                                            <button className="btn btn-sm btn-dark m-1" onClick={() => this.choose(item)} id="brown"><i class="fa fa-check me-2"></i>Confirm</button>
                                         </td>
                                     </tr>
                                 )

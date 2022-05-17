@@ -27,16 +27,17 @@ class TransactionDetail extends React.Component {
 
         }
         if (localStorage.getItem('token')) {
-            // if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
+            if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
                 this.state.role = localStorage.getItem('role')
                 this.state.token = localStorage.getItem('token')
                 this.state.userName = localStorage.getItem('name')
                 this.state.outletId = localStorage.getItem('id_outlet')
                 this.state.outletName = localStorage.getItem('outlet')
-            // } else {
-            //     window.alert("You are not an admin")
-            //     window.location = '/login'
-            // }
+            } else {
+                window.alert("You are not an admin or a cashier")
+                window.location = '/login'
+                localStorage.clear()
+            }
         } else {
             window.location = "/login"
         }
@@ -83,7 +84,8 @@ class TransactionDetail extends React.Component {
         return (
             <div>
                 <Navbar />
-                <div className="container my-2 py-5">
+                <div className="container my-5 py-5">
+                    <br /><br />
                     <h1 className="display-6 fw-bold mb-5">Detail Transaction</h1>
 
                     <div className="row mb-4">

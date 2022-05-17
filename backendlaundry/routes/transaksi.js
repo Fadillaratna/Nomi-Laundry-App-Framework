@@ -99,10 +99,27 @@ app.get("/lunas/:id_outlet", async (req, res) => {
       dibayar: "dibayar",
     },
   });
+
+  let maxDate = await transaksi.max('tgl', {
+    where: {
+      id_outlet: req.params.id_outlet,
+      dibayar: "dibayar",
+    },
+  });
+
+  let minDate = await transaksi.min('tgl', {
+    where: {
+      id_outlet: req.params.id_outlet,
+      dibayar: "dibayar",
+    },
+  });
+
   res.json({
     transaksi: result,
     sumTotal: sumTotal,
-    sumGrand: grandTotal
+    sumGrand: grandTotal,
+    minDate: minDate,
+    maxDate: maxDate
   })
 })
 
@@ -323,7 +340,7 @@ app.post("/laporan/:id_outlet", async (req, res) => {
 
   // let start = req.body.start
   // let end = req.body.end
-  if (req.body.start && req.body.end) {
+  // if (req.body.start && req.body.end) {
     let result = await transaksi.findAll({
       where: {
         id_outlet: req.params.id_outlet, 
@@ -390,59 +407,59 @@ app.post("/laporan/:id_outlet", async (req, res) => {
       maxDate: maxDate,
       minDate: minDate
     })
-  } else {
-    let result = await transaksi.findAll({
-      where: {
-        id_outlet: req.params.id_outlet,
-        dibayar: "dibayar",
-      },
-      include: [
-        "member", "outlet", "user",
-        {
-          model: models.detail_transaksi,
-          as: "detail_transaksi",
-          include: ["paket"]
-        }
-      ],
+  // } else {
+  //   let result = await transaksi.findAll({
+  //     where: {
+  //       id_outlet: req.params.id_outlet,
+  //       dibayar: "dibayar",
+  //     },
+  //     include: [
+  //       "member", "outlet", "user",
+  //       {
+  //         model: models.detail_transaksi,
+  //         as: "detail_transaksi",
+  //         include: ["paket"]
+  //       }
+  //     ],
 
-    })
+  //   })
 
-    let sumTotal = await transaksi.sum('total', {
-      where: {
-        id_outlet: req.params.id_outlet,
-        dibayar: "dibayar",
-      },
-    });
+  //   let sumTotal = await transaksi.sum('total', {
+  //     where: {
+  //       id_outlet: req.params.id_outlet,
+  //       dibayar: "dibayar",
+  //     },
+  //   });
 
-    let grandTotal = await transaksi.sum('grandTotal', {
-      where: {
-        id_outlet: req.params.id_outlet,
-        dibayar: "dibayar",
-      },
-    });
+  //   let grandTotal = await transaksi.sum('grandTotal', {
+  //     where: {
+  //       id_outlet: req.params.id_outlet,
+  //       dibayar: "dibayar",
+  //     },
+  //   });
 
-    let maxDate = await transaksi.max('tgl', {
-      where: {
-        id_outlet: req.params.id_outlet,
-        dibayar: "dibayar",
-      },
-    });
+  //   let maxDate = await transaksi.max('tgl', {
+  //     where: {
+  //       id_outlet: req.params.id_outlet,
+  //       dibayar: "dibayar",
+  //     },
+  //   });
 
-    let minDate = await transaksi.min('tgl', {
-      where: {
-        id_outlet: req.params.id_outlet,
-        dibayar: "dibayar",
-      },
-    });
+  //   let minDate = await transaksi.min('tgl', {
+  //     where: {
+  //       id_outlet: req.params.id_outlet,
+  //       dibayar: "dibayar",
+  //     },
+  //   });
 
-    res.json({
-      transaksi: result,
-      sumTotal: sumTotal,
-      sumGrand: grandTotal,
-      maxDate: maxDate,
-      minDate: minDate
-    })
-  }
+  //   res.json({
+  //     transaksi: result,
+  //     sumTotal: sumTotal,
+  //     sumGrand: grandTotal,
+  //     maxDate: maxDate,
+  //     minDate: minDate
+  //   })
+  // }
 
 })
 

@@ -37,13 +37,7 @@ class User extends React.Component {
       } else {
         window.alert("You are not an admin")
         window.location = '/login'
-        localStorage.removeItem("name");
-        localStorage.removeItem("user");
-        localStorage.removeItem("token");
-        localStorage.removeItem("id");
-        localStorage.removeItem("role");
-        localStorage.removeItem("outlet");
-        localStorage.removeItem("id_outlet");
+        localStorage.clear()
       }
     } else {
       window.location = "/login"
@@ -284,15 +278,18 @@ class User extends React.Component {
   render() {
     return (
       <div>
-        <Navbar />
-        <div className="container my-2 py-5">
+        <Navbar 
+          user = "content-act"
+        />
+        <div className="container my-5 py-5">
+          <br /><br />
           <h1 className="display-6 fw-light text-left">User</h1>
           <div className="row">
             <div className="col-6 mb-1">
-              <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search User..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findUser} />
+              <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search user..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findUser} />
             </div>
             <div className="col-3 mt-5">
-              <button className="btn btn-dark" id="blue" onClick={() => this.handleAdd()}>Add Data</button>
+              <button className="btn btn-dark" id="blue" onClick={() => this.handleAdd()}><i class="fa fa-plus me-2"></i>Add Data</button>
             </div>
           </div>
 
@@ -325,7 +322,7 @@ class User extends React.Component {
                         <button className="btn btn-sm btn-outline-dark m-1" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>
                       }
                       <button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.Drop(item.id_user)}><i className="fa fa-trash"></i></button>
-                      <button className="btn btn-sm btn-dark m-1" id="brown" onClick={() => this.handleEditPw(item)}>Edit Password</button>
+                      <button className="btn btn-sm btn-dark m-1" id="brown" onClick={() => this.handleEditPw(item)}><i className="fa fa-lock"></i></button>
                     </td>
                   </tr>
                 )

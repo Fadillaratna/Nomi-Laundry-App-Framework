@@ -42,6 +42,7 @@ export default class PrintReport extends Component {
             } else {
                 window.alert("You are not an owner")
                 window.location = '/login'
+                localStorage.clear()
             }
         } else {
             window.location = "/login"
@@ -58,6 +59,9 @@ export default class PrintReport extends Component {
     }
 
     getTransaksiDate = () => {
+        if(this.state.start === "" && this.state.end === ""){
+            this.getTransaksi()
+        }else{
         let form = {
             start: this.state.start,
             end: this.state.end
@@ -79,6 +83,26 @@ export default class PrintReport extends Component {
             .catch(error => {
                 console.log(error)
             })
+        }
+    }
+
+    getTransaksi = () => {
+        let url = 'http://localhost:8080/transaksi/lunas/' + this.state.outletId
+        axios.get(url)
+            .then(res => {
+                this.setState({
+                    transaksi: res.data.transaksi,
+                    sumTotal: res.data.sumTotal,
+                    sumGrand: res.data.sumGrand,
+                    minDate: res.data.minDate,
+                    maxDate: res.data.maxDate
+                })
+                window.print()
+                console.log(this.state.sumTotal)
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     componentDidMount() {
@@ -91,10 +115,10 @@ export default class PrintReport extends Component {
                 <div>
                     <div className="dash-1">
                         {/* <h3 className="display-6 fw-bold mb-5">Detail Transaction</h3> */}
-                        <img src="/assets/logo.jpeg" className='lg' />
+                        <img src="/assets/logo.png" className='lg' id='nomi'/>
                         <h2 className="title-laporan">TRANSACTION REPORT</h2>
-                        <h4 className='laun-brand'>Kleen n' Clean Laundry</h4>
-                        <h6 className="header" id='em'>Email: familylaundry@gmail.com</h6>
+                        <h4 className='laun-brand'>Nomi Laundry</h4>
+                        <h6 className="header" id='em'>Email: nomilaundry@gmail.com</h6>
                         <br />
                         <hr id='line-1' /> <hr id="line-2" /> <br />
                         <h5 className="fs-5 fw-bold">Transaction Data at {this.state.outletName}</h5>
@@ -118,7 +142,7 @@ export default class PrintReport extends Component {
                                     <th>Grand Total</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody >
                                 {this.state.transaksi.map((item, index) => {
                                     return (
                                         <tr key={index}>
@@ -131,7 +155,7 @@ export default class PrintReport extends Component {
                                                 <ol>
                                                     {item.detail_transaksi.map((it, index) => {
                                                         return (
-                                                            <li>{index + 1}. {it.paket.nama_paket}</li>
+                                                            <li className='text-left'>{index + 1}. {it.paket.nama_paket}</li>
                                                         )
                                                     })}
                                                 </ol>
@@ -149,7 +173,7 @@ export default class PrintReport extends Component {
                                                 <ol>
                                                     {item.detail_transaksi.map((it, index) => {
                                                         return (
-                                                            <li>Rp {it.paket.harga}</li>
+                                                            <li className='text-left'>Rp {it.paket.harga}</li>
                                                         )
                                                     })}
                                                 </ol>

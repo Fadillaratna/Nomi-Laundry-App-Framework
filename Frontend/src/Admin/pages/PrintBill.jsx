@@ -24,17 +24,17 @@ class PrintBill extends React.Component {
 
         }
         if (localStorage.getItem('token')) {
-            // if (localStorage.getItem('role') === "admin") {
+            if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
                 this.state.role = localStorage.getItem('role')
                 this.state.token = localStorage.getItem('token')
                 this.state.userName = localStorage.getItem('name')
                 this.state.outletId = localStorage.getItem('id_outlet')
                 this.state.outletName = localStorage.getItem('outlet')
-            // } else {
-            //     window.alert("You are not an admin")
-            //     window.location = '/login'
-            //     localStorage.clear()
-            // }
+            } else {
+                window.alert("You are not an admin or a cashier")
+                window.location = '/login'
+                localStorage.clear()
+            }
         } else {
             window.location = "/login"
         }
@@ -79,10 +79,11 @@ class PrintBill extends React.Component {
             <div>
                 <div className="container">
                     {/* <h3 className="display-6 fw-bold mb-5">Detail Transaction</h3> */}
-                    <img src="/assets/logo.jpeg" className='lg' />
-                    <h2 className="title-laporan">TRANSACTION REPORT</h2>
-                    <h4 className='laun-brand'>Kleen n' Clean Laundry</h4>
-                    <h6 className="header" id='em'>Email: familylaundry@gmail.com</h6>
+                
+                    <img src="/assets/logo.png" className='lg' id="nomi"/>
+                    <h2 className="title-laporan">LAUNDRY BILL</h2>
+                    <h4 className='laun-brand'>Nomi Laundry</h4>
+                    <h6 className="header" id='em'>Email: nomilaundry@gmail.com</h6>
                     <br />
                     <hr id='line-1' /> <hr id="line-2" /> <br />
                     <h5 className="fs-5 fw-bold">Data Transaction</h5>

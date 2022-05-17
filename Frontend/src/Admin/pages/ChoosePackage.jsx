@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from '../component/Navbar';
-import Card from '../component/Card';
+import CardChoose from '../component/CardChoose';
 import axios from 'axios';
 import { Modal, Button, Form } from 'react-bootstrap';
 
@@ -25,21 +25,39 @@ class ChoosePackage extends Component {
 
     }
     if (localStorage.getItem('token')) {
-      if (localStorage.getItem('role') === "admin") {
+      if (localStorage.getItem('role') === "admin" || localStorage.getItem('role') === "kasir") {
         this.state.role = localStorage.getItem('role')
         this.state.token = localStorage.getItem('token')
         this.state.userName = localStorage.getItem('name')
         this.state.outletname = localStorage.getItem('outlet')
         this.state.outletid = localStorage.getItem('id_outlet')
       } else {
-        window.alert("You are not an admin")
+        window.alert("You are not an admin or a cashier")
         window.location = '/login'
+        localStorage.clear()
       }
     } else {
       window.location = "/login"
     }
   }
 
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  handleFile = (e) => {
+    this.setState({
+      image: e.target.files[0]
+    })
+  }
+
+  handleClose = () => {
+    this.setState({
+      isModalOpen: false,
+    })
+  }
 
   getPacket = () => {
     let url = "http://localhost:8080/paket/getByOut/" + this.state.outletid
@@ -54,6 +72,69 @@ class ChoosePackage extends Component {
       })
   }
 
+  
+
+  handleChoose = (selectedItem) => {
+    if (localStorage.getItem("id_member") !== null) {
+      let tempCart = []
+
+      if (localStorage.getItem("cart") !== null) {
+        tempCart = JSON.parse(localStorage.getItem("cart"))
+        // JSON.parse() digunakan untuk mengonversi dari string -> array object
+      }
+
+      // cek data yang dipilih user ke keranjang belanja
+      let existItem = tempCart.find(item => item.id_paket === selectedItem.id_paket)
+      if (existItem) {
+        // jika item yang dipilih ada pada keranjang belanja
+        window.alert(`You have choose ${selectedItem.nama_paket} package`)
+      }
+      else {
+        // user diminta memasukkan jumlah item yang dibeli
+        let promptJumlah = window.prompt(`Input qty ${selectedItem.nama_paket} `, "")
+        if (promptJumlah === null || promptJumlah === "" || promptJumlah === "0") { 
+          window.alert("Qty cannot be null")
+      } else {
+          // jika user memasukkan jumlah item yang dibeli
+          // menambahkan properti "jumlahBeli" pada item yang dipilih
+          selectedItem.qty = promptJumlah
+          selectedItem.subtotal = promptJumlah * selectedItem.harga
+          // masukkan item yang dipilih ke dalam cart
+          tempCart.push(selectedItem)
+          // simpan array tempCart ke localStorage
+          localStorage.setItem("cart", JSON.stringify(tempCart))
+
+      }
+        
+      }
+
+
+
+    } else {
+      window.alert("Choose Member First!!")
+      window.location = '/choosemember'
+    }
+  }
+
+  findPaket = (event) => {
+    let url = "http://localhost:8080/paket/search/" + this.state.outletid;
+    if (event.keyCode === 13) {
+      // menampung data keyword pencarian
+      let form = {
+        find: this.state.search
+      }
+      // mengakses api untuk mengambil data pegawai
+      // berdasarkan keyword
+      axios.post(url, form)
+        .then(response => {
+          // mengisikan data dari respon API ke array pegawai
+          this.setState({ paket: response.data.paket });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
 
   componentDidMount() {
     this.getPacket()
@@ -62,8 +143,11 @@ class ChoosePackage extends Component {
   render() {
     return (
       <div>
-        <Navbar />
-        <div className="container my-2 py-5">
+        <Navbar 
+          package = "content-act"
+        />
+        <div className="container my-5 py-5">
+          <br /><br />
           <h4 className="display-6 fw-light">
             Hello, {this.state.userName}!
           </h4>
@@ -71,22 +155,24 @@ class ChoosePackage extends Component {
 
           <div className="row">
             <div className="col-6 mb-1">
-              <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search Category..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findClass} />
+              <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search package..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findPaket} />
 
             </div>
             <div className="col-3 mt-5">
-              <button onClick={() => this.handleAdd()} className="btn btn-dark" id="blue">Add Data</button>
+              {this.state.role === "admin" &&
+                <button onClick={() => this.handleAdd()} className="btn btn-dark" id="blue"><i class="fa fa-plus me-2"></i>Add Data</button>
+              }
             </div>
           </div>
 
           <div className="row">
             {this.state.paket.map((item, index) => (
-              <Card
+              <CardChoose
                 key={index}
                 judul={item.nama_paket}
                 jenis={item.jenis}
                 harga={item.harga}
-                outlet={item.outlet.nama}
+                outlet={item.outlet.nama_outlet}
                 cover={"http://localhost:8080/image/paket/" + item.image}
                 onChoose={() => this.handleChoose(item)}
               // onCart={() => this.addToCart(item)}
