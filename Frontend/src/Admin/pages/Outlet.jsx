@@ -144,19 +144,19 @@ class Outlet extends React.Component {
     }
   }
 
-  //   Drop = (id) => {
-  //     let url = "http://localhost:8080/member/" + id
-  //     if (window.confirm("Are you sure to delete this data?")) {
-  //       axios.delete(url)
-  //         .then(res => {
-  //           console.log(res.data.message)
-  //           this.getMember()
-  //         })
-  //         .catch(err => {
-  //           console.log(err.message)
-  //         })
-  //     }
-  //   }
+    Drop = (id) => {
+      let url = "http://localhost:8080/outlet/" + id
+      if (window.confirm("Are you sure to delete this data?")) {
+        axios.delete(url)
+          .then(res => {
+            console.log(res.data.message)
+            this.getOutlet()
+          })
+          .catch(err => {
+            console.log(err.message)
+          })
+      }
+    }
 
   componentDidMount() {
     this.getOutlet()
