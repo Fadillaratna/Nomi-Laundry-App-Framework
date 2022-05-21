@@ -10,26 +10,18 @@ export default class Home extends Component {
       username: "",
       userId: 0,
       role: "",
-      outletname: "",
-      peran: "pp"
+      outletname: ""
     }
 
     if (localStorage.getItem('token')) {
-      // if (localStorage.getItem('role') === "admin") {
       this.state.role = localStorage.getItem('role')
       this.state.token = localStorage.getItem('token')
       this.state.username = localStorage.getItem('name')
       this.state.outletname = localStorage.getItem('outlet')
-      // }else{
-      //   window.alert("You are not an admin")
-      //   window.location = '/login'
-      // }
     } else {
       window.location = "/login"
+      localStorage.clear()
     }
-
-
-
   }
   render() {
     return (

@@ -42,11 +42,6 @@ export default class Login extends Component {
           localStorage.setItem("role", role)
           localStorage.setItem("outlet", outlet)
           localStorage.setItem("id_outlet", id_outlet)
-          // if(role == "admin"){
-          //   window.location = "/"
-          // }else if(role == "kasir"){
-          //   window.location = "/home"
-          // }
           window.location = "/"
         }
         else {
@@ -57,26 +52,22 @@ export default class Login extends Component {
   render() {
     return (
       <div className="contain"><br /><br /><br /><br />
-
-
         <div className="card mx-auto d-block" id="card-forgot">
           <div className="card-body ms-4 me-4">
             <img src="/assets/logo.png" className="mt-4 mb-4" alt="" id="logo" width={80} />
             <h4 className='fs-3 fw-bold'>Nomi Laundry</h4>
             <h5 className='fs-6 fw-light mb-5'>Hello, welcome back! Login Here!</h5>
             <form onSubmit={(e) => this.handleLogin(e)}>
+
               <label htmlFor="" className='mb-2'>Username</label>
-              <input type="text" className='form-control' value={this.state.username} onChange={this.handleChange} placeholder='Input your username' name="username" /><br />
+              <input type="text" className='form-control' value={this.state.username} onChange={this.handleChange} placeholder='Input your username' name="username"/><br />
 
               <label htmlFor="" className='mb-2' >Password</label>
-              <input type="password" className='form-control' value={this.state.password} onChange={this.handleChange} placeholder='Input your password' name="password" /><br />
+              <input type="password" className='form-control' value={this.state.password} onChange={this.handleChange} placeholder='Input your password' name="password"/><br />
               <input type="submit" className='btn btn-dark w-100' id="blue" value="Login" />
             </form>
           </div>
         </div>
-
-
-
       </div>
     )
   }

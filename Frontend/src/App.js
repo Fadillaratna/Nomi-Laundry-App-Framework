@@ -6,7 +6,6 @@ import { Nav } from 'react-bootstrap'
 function App() {
   return (
     <div>
-      
       <Main />
     </div>
   );

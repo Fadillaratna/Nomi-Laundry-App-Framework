@@ -104,16 +104,16 @@ class Transaction extends React.Component {
   handleSave = e => {
     e.preventDefault()
     let form = []
-    if (this.state.tgl_bayar !== null) {
+    // if (this.state.tgl_bayar !== null) {
       form = {
         status: this.state.status,
       }
-    } else {
-      form = {
-        status: this.state.status,
-        // dibayar: this.state.dibayar
-      }
-    }
+    // } else {
+    //   form = {
+    //     status: this.state.status,
+    //     // dibayar: this.state.dibayar
+    //   }
+    // }
 
     let url = "http://localhost:8080/transaksi/" + this.state.id_transaksi
     axios.put(url, form)
@@ -249,9 +249,6 @@ class Transaction extends React.Component {
                         <span>
                           {item.status === "diambil" && item.dibayar === "dibayar" ? (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)} disabled><i className="fa fa-pencil"></i></button>) : (<button className="btn btn-sm btn-dark m-1" id="blue" onClick={() => this.handleEdit(item)}><i className="fa fa-pencil"></i></button>)}
                         </span>
-
-
-
                       }
 
                       {this.state.role === "kasir" &&

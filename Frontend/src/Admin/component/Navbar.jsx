@@ -21,13 +21,6 @@ export default class Navbar extends Component {
     if (window.confirm("Are you sure to logout?")) {
       window.location = '/login'
       localStorage.clear()
-      // localStorage.removeItem("name");
-      // localStorage.removeItem("user");
-      // localStorage.removeItem("token");
-      // localStorage.removeItem("id");
-      // localStorage.removeItem("role");
-      // localStorage.removeItem("outlet");
-      // localStorage.removeItem("id_outlet");
     }
   }
 

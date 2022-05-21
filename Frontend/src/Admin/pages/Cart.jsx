@@ -179,14 +179,6 @@ export default class Cart extends React.Component {
                 window.location = "/transaction"
             })
             .catch(error => {
-                // if (error.res) {
-                //     if (error.res.status) {
-                //         window.alert(error.res.data.message)
-                //         this.props.history.push("/login")
-                //     }
-                // } else {
-                //     console.log(error);
-                // }
                 window.alert("Failed Checkout")
             })
     }
@@ -209,7 +201,7 @@ export default class Cart extends React.Component {
                     </h4>
                     {this.state.cart.length > 0 &&
                         <div>
-                            <h5 className="fs-5 fw-bold">User Data</h5>
+                            <h5 className="fs-5 fw-bold">Member Data</h5>
                             <div className="row mb-2">
                                 <div className="col-4">
                                     <h6>Member Name </h6>

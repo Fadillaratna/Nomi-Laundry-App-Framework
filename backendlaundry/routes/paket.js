@@ -81,7 +81,6 @@ app.get("/getByOut/:id_outlet", async (req, res) => {
     res.json({
         paket: result
     })
-
 })
 
 //endpoint untuk menyimpan data paket, METHOD: POST, function: create

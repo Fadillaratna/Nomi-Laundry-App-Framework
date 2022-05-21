@@ -57,7 +57,6 @@ class ChooseMember extends React.Component {
             localStorage.setItem("id_member", item.id_member)
             window.location = "/choosePackage"
         }
-
     }
 
     findMember = (event) => {

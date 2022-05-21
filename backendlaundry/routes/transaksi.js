@@ -135,22 +135,6 @@ app.post("/search/:id_outlet", async (req, res) => {
             [Op.like]: `%${find}%`
           }
         },
-        // {
-
-        //   tgl: {
-        //     [Op.like]: `%${find}`
-        //   }
-        // },
-        // {
-        //   batas_waktu: {
-        //     [Op.like]: `%${find}`
-        //   }
-        // },
-        // {
-        //   tgl_bayar: {
-        //     [Op.like]: `%${find}`
-        //   }
-        // },
         {
           status: {
             [Op.like]: `%${find}%`
@@ -341,72 +325,72 @@ app.post("/laporan/:id_outlet", async (req, res) => {
   // let start = req.body.start
   // let end = req.body.end
   // if (req.body.start && req.body.end) {
-    let result = await transaksi.findAll({
-      where: {
-        id_outlet: req.params.id_outlet, 
-        dibayar: "dibayar",
-        tgl: {
-          [Op.between]: [
-            start, end
-          ]
-        }
+  let result = await transaksi.findAll({
+    where: {
+      id_outlet: req.params.id_outlet,
+      dibayar: "dibayar",
+      tgl: {
+        [Op.between]: [
+          start, end
+        ]
+      }
+    },
+    include: [
+      "member", "outlet", "user",
+      {
+        model: models.detail_transaksi,
+        as: "detail_transaksi",
+        include: ["paket"]
       },
-      include: [
-        "member", "outlet", "user",
-        {
-          model: models.detail_transaksi,
-          as: "detail_transaksi",
-          include: ["paket"]
-        },
 
-      ],
+    ],
 
-    })
+  })
 
-    let sumTotal = await transaksi.sum('total', {
-      where: {
-        id_outlet: req.params.id_outlet,
-        tgl: {
-          [Op.between]: [
-            start, end
-          ]
-        }
-      },
-    });
+  let sumTotal = await transaksi.sum('total', {
+    where: {
+      id_outlet: req.params.id_outlet,
+      tgl: {
+        [Op.between]: [
+          start, end
+        ]
+      }
+    },
+  });
 
-    let grandTotal = await transaksi.sum('grandTotal', {
-      where: {
-        id_outlet: req.params.id_outlet,
-        dibayar: "dibayar",
-        tgl: {
-          [Op.between]: [
-            start, end
-          ]
-        }
-      },
-    });
+  let grandTotal = await transaksi.sum('grandTotal', {
+    where: {
+      id_outlet: req.params.id_outlet,
+      dibayar: "dibayar",
+      tgl: {
+        [Op.between]: [
+          start, end
+        ]
+      }
+    },
+  });
 
-    let maxDate = await transaksi.max('tgl', {
-      where: {
-        id_outlet: req.params.id_outlet,
-        dibayar: "dibayar",
-      },
-    });
+  let maxDate = await transaksi.max('tgl', {
+    where: {
+      id_outlet: req.params.id_outlet,
+      dibayar: "dibayar",
+    },
+  });
 
-    let minDate = await transaksi.min('tgl', {
-      where: {
-        id_outlet: req.params.id_outlet,
-        dibayar: "dibayar",
-      },
-    });
+  let minDate = await transaksi.min('tgl', {
+    where: {
+      id_outlet: req.params.id_outlet,
+      dibayar: "dibayar",
+    },
+  });
 
-    res.json({
-      transaksi: result,
-      sumTotal: sumTotal,
-      sumGrand: grandTotal,
-      maxDate: maxDate,
-      minDate: minDate
-    })
+  res.json({
+    transaksi: result,
+    sumTotal: sumTotal,
+    sumGrand: grandTotal,
+    maxDate: maxDate,
+    minDate: minDate
+  })
   // } else {
   //   let result = await transaksi.findAll({
   //     where: {

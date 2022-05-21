@@ -89,7 +89,6 @@ class Outlet extends React.Component {
       isModalOpen: true,
       action: "update"
     })
-
   }
 
   handleSave = e => {
@@ -144,19 +143,19 @@ class Outlet extends React.Component {
     }
   }
 
-    Drop = (id) => {
-      let url = "http://localhost:8080/outlet/" + id
-      if (window.confirm("Are you sure to delete this data?")) {
-        axios.delete(url)
-          .then(res => {
-            console.log(res.data.message)
-            this.getOutlet()
-          })
-          .catch(err => {
-            console.log(err.message)
-          })
-      }
+  Drop = (id) => {
+    let url = "http://localhost:8080/outlet/" + id
+    if (window.confirm("Are you sure to delete this data?")) {
+      axios.delete(url)
+        .then(res => {
+          console.log(res.data.message)
+          this.getOutlet()
+        })
+        .catch(err => {
+          console.log(err.message)
+        })
     }
+  }
 
   componentDidMount() {
     this.getOutlet()
@@ -167,8 +166,8 @@ class Outlet extends React.Component {
   render() {
     return (
       <div>
-        <Navbar 
-          outlet = "content-act"
+        <Navbar
+          outlet="content-act"
         />
         <div className="container my-5 py-5">
           <br /><br />

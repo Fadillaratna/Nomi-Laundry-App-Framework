@@ -92,16 +92,6 @@ app.post("/search/search", async (req, res) => {
             {
                 model: model.outlet,
                 as: "outlet",
-                // where: {
-                //     [Op.or]: [
-                //         {
-                //             nama_outlet: {
-                //                 [Op.like]: `%${find}%`
-                //             }
-                //         },
-                //     ]
-                // },
-
             }
         ]
     })

@@ -7,16 +7,16 @@ auth = (req, res, next) => {
     let jwtHeader = {
         algorithm: "HS256"
     }
-    if(token == null){
-        res.status(401).json({ message: "Unauthorized"})
-    }else{
-        jwt.verify(token, SECRET_KEY, jwtHeader, (error,user) => {
+    if (token == null) {
+        res.status(401).json({ message: "Unauthorized" })
+    } else {
+        jwt.verify(token, SECRET_KEY, jwtHeader, (error, user) => {
             if (error) {
                 res
-                .status(401)
-                .json({
-                    message: "Invalid token"
-                })
+                    .status(401)
+                    .json({
+                        message: "Invalid token"
+                    })
             } else {
                 console.log(user);
                 next()

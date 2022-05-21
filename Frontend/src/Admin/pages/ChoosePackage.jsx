@@ -108,8 +108,6 @@ class ChoosePackage extends Component {
         
       }
 
-
-
     } else {
       window.alert("Choose Member First!!")
       window.location = '/choosemember'
@@ -158,11 +156,11 @@ class ChoosePackage extends Component {
               <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search package..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findPaket} />
 
             </div>
-            <div className="col-3 mt-5">
+            {/* <div className="col-3 mt-5">
               {this.state.role === "admin" &&
                 <button onClick={() => this.handleAdd()} className="btn btn-dark" id="blue"><i class="fa fa-plus me-2"></i>Add Data</button>
               }
-            </div>
+            </div> */}
           </div>
 
           <div className="row">

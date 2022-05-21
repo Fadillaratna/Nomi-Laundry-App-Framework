@@ -223,7 +223,6 @@ class Packet extends Component {
           <div className="row">
             <div className="col-6 mb-1">
               <input type="text" name="search" className="form-control my-5 rounded" placeholder="Search package..." value={this.state.search} onChange={this.handleChange} onKeyUp={this.findPaket} />
-
             </div>
             <div className="col-3 mt-5">
                 <button onClick={() => this.handleAdd()} className="btn btn-dark" id="blue"><i class="fa fa-plus me-2"></i>Add Data</button>
